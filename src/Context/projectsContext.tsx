@@ -38,6 +38,7 @@ const ProjectsProvider = ({ children }: { children: React.ReactNode }) => {
   return <ProjectContext.Provider value={{ projects, setProjects, removeProject, editOrAddProject }}>{children}</ProjectContext.Provider>
 }
 
+// eslint-disable-next-line
 export const useProjectsContext = () => React.useContext(ProjectContext);
 
 export default ProjectsProvider;
