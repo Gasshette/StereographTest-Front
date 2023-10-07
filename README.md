@@ -8,10 +8,10 @@ Technical test from StereoGraph : front part.
 4.	Don't forget to do the same with [the backend](https://github.com/Gasshette/StereographTest-Back) ! 
 
 # Build and Test
-`yarn dev` : start the project and open it
-`yarn build` : build the project
-`yarn lint` : run eslint on the project
-`yarn preview` : serve the build on the local server. yarn build must be done before to run the up-to-date build.
+1.  `yarn dev` : start the project and open it
+2.  `yarn build` : build the project
+3.  `yarn lint` : run eslint on the project
+4.  `yarn preview` : serve the build on the local server. yarn build must be done before to run the up-to-date build.
 
 # Technical choices & difficulties
 MUI : my main and most used framwork to get the job done with a basic material design. Pretty easy to use and yet contains a lot of components.
