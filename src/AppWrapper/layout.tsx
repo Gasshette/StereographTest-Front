@@ -6,8 +6,8 @@ const Layout = () => {
   const theme = useTheme();
 
   return (
-    <Box display="flex" height="100%">
-      <Box display="flex" width="20%" p={2} sx={{ backgroundColor: theme.palette.primary.main }}>
+    <Box display="flex" minHeight="100%">
+      <Box width="20%" sx={{ backgroundColor: theme.palette.primary.main }}>
         <Menu />
       </Box>
       <Box width="80%" p={2}>

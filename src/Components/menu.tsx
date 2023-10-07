@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const Menu = () => {
   return (
-    <List sx={{ width: "100%" }}>
+    <List sx={{ width: "100%", position: "sticky", top: 0 }}>
       <ListItemButton component={NavLink} to="/">
         <ListItemIcon>
           <Home />
