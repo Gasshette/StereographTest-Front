@@ -5,6 +5,7 @@ import { useProjectsContext } from '../Context/projectsContext';
 import { Add, ArrowDownward, ArrowUpward, Delete } from '@mui/icons-material';
 import AddProjectModal from '../Components/Modals/addProjectModal';
 import { Project } from '../Models/project';
+import { produce } from 'immer';
 
 const Projects = () => {
   const theme = useTheme();
@@ -15,20 +16,26 @@ const Projects = () => {
 
   const sortableHeader = 'step';
 
+  const compare = (a: Project, b: Project) => {
+    if (a.step === undefined || b.step === undefined)
+      return 0;
+
+    if (a.step < b.step) {
+      return isAsc ? 1 : -1;
+    }
+
+    if (a.step > b.step) {
+      return isAsc ? -1 : 1;
+    }
+
+    return 0;
+  }
+
   const sortRows = (col: string) => {
-    if (col.toLowerCase() === sortableHeader.toLowerCase()) {
-      const newProjects = [...projects];
-      newProjects.sort((a, b) => {
-        const n1 = a.step ?? 0;
-        const n2 = b.step ?? 0;
+    if (col === sortableHeader) {
+      const newProject = produce(projects, draft => draft.sort(compare));
 
-        if (isAsc) {
-          return n1 > n2 ? 1 : 0;
-        } else {
-          return n1 < n2 ? 1 : 0;
-        }
-      });
-
+      setProjects(newProject);
       setIsAsc(!isAsc);
     }
   }
@@ -72,7 +79,18 @@ const Projects = () => {
                     <TableRow>
                       {
                         Object.keys(projects[0]).map(k => (
-                          <TableCell key={k} onClick={() => sortRows(k)}>
+                          <TableCell
+                            key={k}
+                            onClick={() => sortRows(k)}
+                            sx={{
+                              ...(k === sortableHeader && {
+                                ":hover": {
+                                  cursor: 'pointer',
+                                  backgroundColor: theme.palette.grey[200],
+                                  transition: 'background .3s'
+                                }
+                              })
+                            }}>
                             <Typography display="flex" alignItems='center' sx={{ fontWeight: 700, textTransform: "capitalize" }}>
                               {k === 'step' ? (isAsc ? <ArrowUpward fontSize='small' /> : <ArrowDownward fontSize='small' />) : ''} {k}
                             </Typography>
