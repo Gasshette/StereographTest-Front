@@ -2,10 +2,11 @@ import { Box, Button, IconButton, Table, TableBody, TableCell, TableContainer, T
 import * as projectsApi from '../Apis/projectsApis';
 import { useEffect, useState } from 'react';
 import { useProjectsContext } from '../Context/projectsContext';
-import { Add, ArrowDownward, ArrowUpward, Delete } from '@mui/icons-material';
+import { Add, ArrowDownward, ArrowUpward, Delete, Edit } from '@mui/icons-material';
 import AddProjectModal from '../Components/Modals/addProjectModal';
 import { Project } from '../Models/project';
 import { produce } from 'immer';
+import { useNavigate } from 'react-router-dom';
 
 const Projects = () => {
   const theme = useTheme();
@@ -13,6 +14,7 @@ const Projects = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState<Project | undefined>(undefined);
   const [isAsc, setIsAsc] = useState(false);
+  const navigate = useNavigate();
 
   const sortableHeader = 'step';
 
@@ -103,19 +105,29 @@ const Projects = () => {
                   <TableBody>
                     {
                       projects.map(p => (
-                        <TableRow onClick={() => setProjectToEdit(p)} key={p.id} sx={{
-                          ":hover": {
-                            cursor: 'pointer',
-                            backgroundColor: theme.palette.grey[200],
-                            transition: 'background .3s'
-                          }
-                        }}>
+                        <TableRow
+                          key={p.id}
+                          onClick={() => navigate(`${p.id}`, { state: { project: p } })}
+                          sx={{
+                            ":hover": {
+                              cursor: 'pointer',
+                              backgroundColor: theme.palette.grey[200],
+                              transition: 'background .3s'
+                            }
+                          }}>
                           <TableCell>{p.id}</TableCell>
                           <TableCell>{p.name}</TableCell>
                           <TableCell>{p.description}</TableCell>
                           <TableCell>{p.comment}</TableCell>
                           <TableCell>{p.step}</TableCell>
                           <TableCell>
+                            <IconButton onClick={(e) => {
+                              e.stopPropagation();
+                              e.preventDefault();
+                              setProjectToEdit(p)
+                            }}>
+                              <Edit />
+                            </IconButton>
                             <IconButton
                               onClick={(e) => {
                                 e.stopPropagation();
